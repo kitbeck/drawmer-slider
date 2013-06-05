@@ -1,29 +1,17 @@
-function doControls(currentPosition) {
+function doControls(currentPosition, config) {
 
 	$('div#pagination ul li').removeClass();
+	
+	$('#pos' + currentPosition).addClass('active');
 
-	if (currentPosition >= 4) {
+	if (currentPosition >= config.opts.totSlides - 1) {
 		$('#controlright').hide();
-		$('#pos4').addClass('active disabled');
 	} else {
 		$('#controlright').show();
-	}
-	
-	if (currentPosition == 3) {
-		$('#pos3').addClass('active disabled');
-	}
-	
-	if (currentPosition == 2) {
-		$('#pos2').addClass('active disabled');
-	}
-	
-	if (currentPosition == 1) {
-		$('#pos1').addClass('active disabled');
 	}
 
 	if (currentPosition <= 0) {
 		$('#controlleft').hide();
-		$('#pos0').addClass('active disabled');
 	} else {
 		$('#controlleft').show();
 	}
@@ -35,7 +23,7 @@ function doMove(currentPosition, config) {
 	config.elems.text.fadeOut(800, 'easeOutCirc', function() {
 		config.elems.image.fadeOut(400, 'easeOutCirc');
 		config.elems.slideWrap.delay(400).animate({ 'marginTop' : config.opts.slideHeight * (-currentPosition) }, 0, function() {
-			doControls(currentPosition);
+			doControls(currentPosition, config);
 			config.elems.image.fadeIn(400, 'easeInCirc', function() {
 				config.elems.text.fadeIn(800, 'easeInCirc');
 			});
@@ -71,7 +59,8 @@ $(document).ready(function() {
 		opts: {
 			slideDelay: 	8000,
 			slideWidth: 	959,
-			slideHeight: 	299
+			slideHeight: 	299,
+			totSlides: 		$('div#slide-wrap').children().length
 		}
 	
 	}
@@ -80,8 +69,10 @@ $(document).ready(function() {
 	
 	var currentPosition = 0;
 	
+	console.log('Total slides: ' + config.elems.totSlides);
+	
 	var slideIntervalID = setInterval(function() {
-		if (currentPosition == 4) {
+		if (currentPosition == config.opts.totSlides - 1) {
 			currentPosition = 0;
 		} else {
 			currentPosition = currentPosition + 1;

@@ -1,5 +1,3 @@
-// Copyright 2013 Drawmer Electronics Ltd
-
 function doControls(currentPosition) {
 
 	$('div#pagination ul li').removeClass();
